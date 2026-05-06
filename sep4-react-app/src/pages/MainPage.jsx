@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { useState } from "react";
 import {rooms} from "../mocks/rooms.mock";
 import { useCurrentMeasurements } from "../hooks/useCurrentMeasurements";
+import VerticalNavbar from "../components/VerticalNavbar";
 function MainPage() {
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const {data, isLoading, error}  = useCurrentMeasurements(selectedRoomId);
@@ -27,47 +28,37 @@ function MainPage() {
   );
 }
 
-  return ( 
-    <div>
-      <div>
-        <h1>Main page</h1>
-        <div>
-          <label htmlFor="room-select">Room: </label>
-          <select id="room-select" value={selectedRoomId ?? ""} 
-          onChange={(e) => setSelectedRoomId(e.target.value || null)}>
-            <option value= "" >Select Room</option>
-            {rooms.map(
-              (r) => (
-                <option key={r.id} value ={r.id}>{r.name}</option>
-              )
-            )}
-          </select>
-        </div>
-        <div>
-            {renderMeasurements()}
-    </div>
+   return (
+    <div className="main-page-layout">
+      <VerticalNavbar
+        rooms={rooms}
+        selectedRoomId={selectedRoomId}
+        onSelectRoom={setSelectedRoomId}
+      />
 
-      </div>
-      <div>
-        {selectedRoomId ? (
-          <Link to={`/comfort-zone/${selectedRoomId}`}>
-            <button className="nav-btn">Comfort Zone</button>
+      <main className="main-page">
+        <div className="top-nav">
+          <Link to="/comfort-zone">
+            <button className="main-page-nav-btn">Comfort Zone</button>
           </Link>
-        ) : (
-          <button className="nav-btn" disabled>Comfort Zone</button>
-        )}
-      </div>
-      <div>
-        {selectedRoomId ? (
-          <Link to={`/view-data/${selectedRoomId}`}>
-            <button className="nav-btn">View Data</button>
-          </Link>
-        ) : (
-          <button className="nav-btn" disabled>View Data</button>
-        )}
-      </div>
+
+          {selectedRoomId ? (
+            <Link to={`/view-data/${selectedRoomId}`}>
+              <button className="main-page-nav-btn">View Data</button>
+            </Link>
+          ) : (
+            <button className="main-page-nav-btn" disabled>
+              View Data
+            </button>
+          )}
+        </div>
+
+        <h1>Main page</h1>
+
+        {renderMeasurements()}
+      </main>
     </div>
-  )
+  );
 }
 
 export default MainPage;
