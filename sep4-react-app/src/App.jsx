@@ -8,7 +8,7 @@ function App() {
     <HashRouter>
         <Routes>
           <Route path="" element={<MainPage />} />
-          <Route path="comfort-zone" element={<ComfortZonePage />} />
+          <Route path="comfort-zone/:roomId" element={<ComfortZonePage />} />
           <Route path="view-data/:roomId" element={<ViewDataPage />} />
         </Routes>
       </HashRouter>

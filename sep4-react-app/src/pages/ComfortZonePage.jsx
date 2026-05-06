@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Scenario from "../components/Scenario";
 import { scenarioService } from "../services/scenarioApi";
 
@@ -9,8 +9,9 @@ function ComfortZonePage() {
   const [feedbackLoading, setFeedbackLoading] = useState(false);
   const [error, setError] = useState(null);
   const [feedbackSent, setFeedbackSent] = useState(false);
-
-  const roomId = 1;
+  
+  const { roomId: roomIdParam } = useParams();
+  const roomId = Number(roomIdParam);
 
   // fetch/load scenario
   useEffect(() => {
@@ -26,7 +27,7 @@ function ComfortZonePage() {
     };
 
     fetchScenario();
-  }, []);
+  }, [roomId]);
 
   // feedback
   const handleFeedback = async (type) => {
