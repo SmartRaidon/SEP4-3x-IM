@@ -3,6 +3,7 @@ import { useState } from "react";
 import {rooms} from "../mocks/rooms.mock";
 import { useCurrentMeasurements } from "../hooks/useCurrentMeasurements";
 import VerticalNavbar from "../components/VerticalNavbar";
+
 function MainPage() {
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const {data, isLoading, error}  = useCurrentMeasurements(selectedRoomId);
@@ -21,7 +22,7 @@ function MainPage() {
   }
   return (
     <div>
-      <p>Temperature: {data.temperature.value} °C </p>
+      <p>Temperature: {data.temperature.value} Â°C </p>
       <p>Humidity: {data.humidity.value} %</p>
       <p>Light: {data.light.value} lx</p>
     </div>
@@ -38,9 +39,15 @@ function MainPage() {
 
       <main className="main-page">
         <div className="top-nav">
-          <Link to="/comfort-zone">
-            <button className="main-page-nav-btn">Comfort Zone</button>
-          </Link>
+          {selectedRoomId ? (
+            <Link to={`/comfort-zone/${selectedRoomId}`}>
+              <button className="main-page-nav-btn">Comfort Zone</button>
+            </Link>
+          ) : (
+            <button className="main-page-nav-btn" disabled>
+              Comfort Zone
+            </button>
+          )}
 
           {selectedRoomId ? (
             <Link to={`/view-data/${selectedRoomId}`}>
