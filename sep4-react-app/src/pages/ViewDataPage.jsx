@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import MeasurementContainer from "../components/MeasurementContainer";
 import { measurementsApi } from "../services/measurementsApi";
-import { LineChart } from "recharts";
+
+import MeasurementChart from "../components/MeasurementChart";
 
 const measurementsType = ["temperature", "humidity", "light"];
-const unitByType = {"temperature": "°C", "humidity": "%", "light": "lx", }
+const unitByType = { temperature: "°C", humidity: "%", light: "lx" };
 function ViewDataPage() {
   const [measurements, setMeasurements] = useState(null);
+  const [historyMeasurements, setHistoryMeasurements] = useState([]);
   const [activeType, setActiveType] = useState("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const { roomId: roomIdParam } = useParams();
   const roomId = Number(roomIdParam);
 
@@ -19,8 +20,12 @@ function ViewDataPage() {
   useEffect(() => {
     const fetchMeasurements = async () => {
       try {
-        const data = await measurementsApi.getMeasurements(roomId);
-        setMeasurements(data);
+        const [current, historyData] = await Promise.all([
+          measurementsApi.getMeasurements(roomId),
+          measurementsApi.getMeasurementsHistory(roomId),
+        ]);
+        setMeasurements(current);
+        setHistoryMeasurements(historyData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -33,24 +38,24 @@ function ViewDataPage() {
 
   if (loading) return <p>Loading measurements...</p>;
   if (error) return <p>Error: {error}</p>;
-  if (!measurements) return <p>No measurements available</p>;
+  if (!measurements || historyMeasurements.length == 0)
+    return <p>No measurements available</p>;
 
   //pick which measurements to display, all three or just the selected one
-  const typesToShow =
-  activeType === "All" ? measurementsType : [activeType];
+  const typesToShow = activeType === "All" ? measurementsType : [activeType];
 
   return (
     <div>
       <h1>ViewData</h1>
-      
-     {/*render btn for each msr type, plus an "All" btn to show every measurement*/}
-      <div>
+
+      {/*render btn for each msr type, plus an "All" btn to show every measurement*/}
+      <div className="chart-filter">
         <button onClick={() => setActiveType("All")}>All</button>
-        {Object.keys(measurements).filter((type) => measurementsType.includes(type)).map((type) => (
-        <button key={type} className="msr-btn" onClick={() => setActiveType(type)}>
-          {type}
-        </button>
-      ))}
+        {measurementsType.map((type) => (
+          <button key={type} onClick={() => setActiveType(type)}>
+            {type}
+          </button>
+        ))}
       </div>
 
       {typesToShow.map((type) => (
@@ -61,7 +66,16 @@ function ViewDataPage() {
           timeStamp={measurements[type].timeStamp}
         />
       ))}
-      
+      {typesToShow.map(
+        (type) => (
+          <MeasurementChart 
+          key= {type}
+          type = {type}
+          data = {historyMeasurements}
+          />
+        )
+      )}
+
       <Link to="/">
         <button className="nav-btn">Home</button>
       </Link>
