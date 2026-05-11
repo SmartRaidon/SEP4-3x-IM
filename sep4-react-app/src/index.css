@@ -85,3 +85,11 @@ body {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+.msr-btn {
+  text-transform: capitalize;
+}
+
+.measurement-container h3 {
+  text-transform: capitalize;
+}

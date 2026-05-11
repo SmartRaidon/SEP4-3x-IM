@@ -37,7 +37,7 @@ function ViewDataPage() {
 
   //pick which measurements to display, all three or just the selected one
   const typesToShow =
-    activeType === "All" ? Object.keys(measurements) : [activeType];
+  activeType === "All" ? measurementsType : [activeType];
 
   return (
     <div>
@@ -46,11 +46,11 @@ function ViewDataPage() {
      {/*render btn for each msr type, plus an "All" btn to show every measurement*/}
       <div>
         <button onClick={() => setActiveType("All")}>All</button>
-        {Object.keys(measurements).map((type) => (
-          <button key={type} onClick={() => setActiveType(type)}>
-            {type}
-          </button>
-        ))}
+        {Object.keys(measurements).filter((type) => measurementsType.includes(type)).map((type) => (
+        <button key={type} className="msr-btn" onClick={() => setActiveType(type)}>
+          {type}
+        </button>
+      ))}
       </div>
 
       {typesToShow.map((type) => (
