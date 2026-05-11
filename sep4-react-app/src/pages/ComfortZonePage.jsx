@@ -66,7 +66,7 @@ function ComfortZonePage() {
         disabled={feedbackSent || feedbackLoading}
       />
 
-      <Link to="/">
+      <Link to="/main">
         <button className="nav-btn">Home</button>
       </Link>
     </div>
