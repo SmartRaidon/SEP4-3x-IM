@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Scenario from "../components/Scenario";
-import { scenarioService } from "../services/scenarioApi";
+import { scenarioService } from "../api/scenarioApi";
 
 function ComfortZonePage() {
   const [scenario, setScenario] = useState(null);

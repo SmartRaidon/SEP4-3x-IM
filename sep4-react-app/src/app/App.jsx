@@ -1,12 +1,12 @@
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
-import Layout from "./components/Layout";
-import LoginPage from "./pages/LoginPage";
-import RegistrationPage from "./pages/RegistrationPage";
-import MainPage from "./pages/MainPage";
-import ComfortZonePage from "./pages/ComfortZonePage";
-import ViewDataPage from "./pages/ViewDataPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { AuthProvider } from "./context/AuthContext";
+import Layout from "../features/layout/components/Layout";
+import LoginPage from "../features/auth/pages/LoginPage";
+import RegistrationPage from "../features/auth/pages/RegistrationPage";
+import MainPage from "../features/layout/pages/MainPage";
+import ComfortZonePage from "../features/scenarios/pages/ComfortZonePage";
+import ViewDataPage from "../features/measurements/pages/ViewDataPage";
+import ProtectedRoute from "../features/auth/components/ProtectedRoute";
+import { AuthProvider } from "../features/auth/context/AuthContext";
 
 function App() {
   return (

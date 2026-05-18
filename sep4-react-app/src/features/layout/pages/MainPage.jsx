@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from "react";
 import {rooms} from "../mocks/rooms.mock";
-import { useCurrentMeasurements } from "../hooks/useCurrentMeasurements";
+import { useCurrentMeasurements } from "../../measurements/hooks/useCurrentMeasurements";
 import VerticalNavbar from "../components/VerticalNavbar";
 
 function MainPage() {

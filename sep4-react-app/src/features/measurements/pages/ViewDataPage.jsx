@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import MeasurementContainer from "../components/MeasurementContainer";
-import { measurementsApi } from "../services/measurementsApi";
+import { measurementsApi } from "../api/measurementsApi";
 import MeasurementChart from "../components/MeasurementChart";
 import DailySummary from "../components/DailySummary";
 

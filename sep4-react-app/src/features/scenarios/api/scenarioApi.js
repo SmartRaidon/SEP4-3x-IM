@@ -1,35 +1,10 @@
+import {
+  mockScenario,
+  mockedNewPredictedValues,
+} from "../mocks/scenario.mock";
+
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_URL = "/api/scenarios";
-
-const mockScenario = {
-  id: "mocekd-scenario-1",
-  roomId: 1,
-  date: "2026-04-29",
-  predictionHoursAhead: 6,
-  values: [
-    {
-      type: "temperature",
-      label: "Temperature",
-      currentValue: 22,
-      predictedValue: 23,
-      unit: "°C"
-    },
-    {
-      type: "humidity",
-      label: "Humidity",
-      currentValue: 45,
-      predictedValue: 50,
-      unit: "%"
-    },
-    {
-      type: "light",
-      label: "Light",
-      currentValue: 300,
-      predictedValue: 250,
-      unit: "lx"
-    }
-  ]
-};
 
 export const scenarioService = {
   getScenario: async (roomId) => {
@@ -53,18 +28,12 @@ export const scenarioService = {
       console.log("MOCK: sendFeedback", { scenarioId, valueType, feedback });
       await new Promise((res) => setTimeout(res, 300));
 
-      if (feedback === 0) {
-        const mockedNewPredictedValues = {
-         temperature: 24,
-        humidity: 48,
-          light: 275,
-      };
-
+    if (feedback === 0) {
       return {
-          success: true,
-          newPredictedValue: mockedNewPredictedValues[valueType],
-       };
-      }
+        success: true,
+        newPredictedValue: mockedNewPredictedValues[valueType],
+      };
+    }
 
       return { success: true };
     }
@@ -80,5 +49,5 @@ export const scenarioService = {
     }
 
     return response.json();
-  }
+  },
 };

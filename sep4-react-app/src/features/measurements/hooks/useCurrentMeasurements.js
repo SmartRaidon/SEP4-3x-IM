@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { measurementsApi } from "../services/measurementsApi";
+import { measurementsApi } from "../api/measurementsApi";
 export function useCurrentMeasurements(roomId){
 
     const [data,setData] = useState(null);
