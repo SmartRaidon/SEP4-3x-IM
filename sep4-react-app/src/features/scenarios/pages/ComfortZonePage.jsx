@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Scenario from "../components/Scenario";
+import ComfortZoneChart from "../components/ComfortZoneChart";
 import { scenarioService } from "../api/scenarioApi";
 
 function ComfortZonePage() {
@@ -78,6 +79,8 @@ function ComfortZonePage() {
         feedbackLoading={feedbackLoading}
         feedbackSentFor={feedbackSentFor}
       />
+
+      <ComfortZoneChart scenario={scenario} />
 
       <Link to="/main">
         <button className="nav-btn">Home</button>

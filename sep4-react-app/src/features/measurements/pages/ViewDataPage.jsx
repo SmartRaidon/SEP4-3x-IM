@@ -69,14 +69,8 @@ function ViewDataPage() {
           />
         ))}
 
-        {typesToShow.map((type) => (
-          <MeasurementChart
-            key={type}
-            type={type}
-            data={historyMeasurements}
-          />
-        ))}
-      
+        <MeasurementChart type={activeType} data={historyMeasurements} />
+
       </div>
         <DailySummary history={historyMeasurements} types={typesToShow} />
       </div>
