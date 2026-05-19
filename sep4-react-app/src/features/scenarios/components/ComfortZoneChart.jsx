@@ -82,7 +82,7 @@ function ComfortZoneChart({ scenario }) {
   return (
     <div>
       <h2>Comfort zone — Now vs +{scenario.predictionHoursAhead}h</h2>
-      <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+      <div className="comfort-zone-charts" style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
         {scenario.values.map((value) => (
           <MetricBarChart key={value.type} value={value} />
         ))}
