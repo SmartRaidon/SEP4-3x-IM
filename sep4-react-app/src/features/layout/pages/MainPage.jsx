@@ -1,12 +1,58 @@
 import { Link } from "react-router-dom"
 import { useState } from "react";
-import {rooms} from "../mocks/rooms.mock";
+import {rooms as initialRooms} from "../mocks/rooms.mock";
 import { useCurrentMeasurements } from "../../measurements/hooks/useCurrentMeasurements";
 import VerticalNavbar from "../components/VerticalNavbar";
 
 function MainPage() {
   const [selectedRoomId, setSelectedRoomId] = useState(null);
+  const [rooms, setRooms] = useState(initialRooms);
   const {data, isLoading, error}  = useCurrentMeasurements(selectedRoomId);
+  function handleAddRoom(roomName) {
+  if (!roomName || roomName.trim() === "") {
+    return;
+  }
+
+  const trimmedName = roomName.trim();
+
+  const roomAlreadyExists = rooms.some(
+    (room) => room.name.toLowerCase() === trimmedName.toLowerCase()
+  );
+
+  if (roomAlreadyExists) {
+    alert("Room name already exists.");
+    return;
+  }
+
+  const newRoom = {
+    id: Date.now(),
+    name: trimmedName,
+  };
+
+  setRooms((prevRooms) => [...prevRooms, newRoom]);
+  setSelectedRoomId(newRoom.id);
+}
+
+function handleDeleteRoom() {
+  if (!selectedRoomId) {
+    return;
+  }
+
+  const selectedRoom = rooms.find((room) => room.id === selectedRoomId);
+
+  const confirmed = confirm(`Delete ${selectedRoom.name}?`);
+
+  if (!confirmed) {
+    return;
+  }
+
+  setRooms((prevRooms) =>
+    prevRooms.filter((room) => room.id !== selectedRoomId)
+  );
+
+  setSelectedRoomId(null);
+}
+
   function renderMeasurements() {
   if (!selectedRoomId) {
     return <p>Select a room to see current measurements.</p>;
@@ -35,6 +81,8 @@ function MainPage() {
         rooms={rooms}
         selectedRoomId={selectedRoomId}
         onSelectRoom={setSelectedRoomId}
+        onAddRoom={handleAddRoom}
+        onDeleteRoom={handleDeleteRoom}
       />
 
       <main className="main-page">

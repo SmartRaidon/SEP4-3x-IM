@@ -33,18 +33,6 @@ body {
   min-height: 100vh;
 }
 
-.vertical-navbar {
-  width: 220px;
-  background-color: #f3f3f3;
-  border-right: 1px solid #d0d0d0;
-  padding: 20px;
-}
-
-.navbar-title {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 22px;
-}
 
 .room-list {
   display: flex;
@@ -338,3 +326,81 @@ body {
 
 }
 
+.vertical-navbar {
+  width: 220px;
+  background-color: #f3f3f3;
+  border-right: 1px solid #d0d0d0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navbar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.navbar-title {
+  margin: 0;
+  font-size: 22px;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 3px solid #0d57a0;
+  background-color: transparent;
+  color: #0d57a0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.add-room-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.add-room-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.add-room-input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+
+.add-room-submit-btn {
+  padding: 8px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.delete-room-btn {
+  margin-top: auto;
+  align-self: flex-end;
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border: 3px solid #cf0a27;
+  background-color: transparent;
+  color: #cf0a27;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.icon-btn:hover,
+.delete-room-btn:hover {
+  background-color: rgba(139, 0, 21, 0.08);
+}
