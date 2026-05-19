@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { decodeToken } from "../api/authApi";
+import { decodeToken } from "../utils/token";
 import {
   clearAuth,
   getToken,

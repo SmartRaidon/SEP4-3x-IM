@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 import {
   loginUser,
   registerUser,
-} from "../api/authApi";
+} from "../services/authService";
 
 import {
   saveAuth,
