@@ -16,7 +16,7 @@ describe("authApi (real API branch)", () => {
       }),
     });
 
-    const { loginUser } = await import("../api/authApi"); // 🔥 kulcs
+    const { loginUser } = await import("../services/authService");
 
     const result = await loginUser({
       email: "test@test.com",
@@ -37,7 +37,7 @@ describe("authApi (real API branch)", () => {
       }),
     });
 
-    const { registerUser } = await import("../api/authApi");
+    const { registerUser } = await import("../services/authService");
 
     const result = await registerUser({
       name: "John",
