@@ -3,6 +3,18 @@ import { jwtDecode } from "jwt-decode";
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_URL = import.meta.env.VITE_API_BASE_URL
 
+// helper for real API calls
+async function apiRequest(endpoint, options) {
+  const res = await fetch(`${API_URL}${endpoint}`, options);
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
+  }
+
+  return res.json();
+}
+
 // mocking
 async function mockRegister(userData) {
     console.log("MOCK register:", userData);
@@ -31,81 +43,44 @@ async function mockLogin(loginData) {
 
 // real implementation
 async function apiRegister(userData) {
-    const res = await fetch(`${API_URL}/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-    });
-
-    if (!res.ok) {
-        const err = await res.text();
-        throw new Error(err);
-    }
-
-    return await res.json();
+  return apiRequest("/auth/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
 }
 
 async function apiLogin(loginData) {
-    const res = await fetch(`${API_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginData),
-    });
-
-    if (!res.ok) {
-        const err = await res.text();
-        throw new Error(err);
-    }
-
-    const data = await res.json();
-
-    // debugging logs
-    console.log("LOGIN DATA:", data);
-    console.log("TOKEN:", data.token);
-
-    return data;
+  return apiRequest("/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(loginData),
+  });
 }
 
-
-// exported functions + storage
-const TOKEN_KEY = "authToken";
-const USER_KEY = "authUser";
-
-export function saveAuth(token, user) {
-    localStorage.setItem(TOKEN_KEY, token);
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
-}
-
-export function clearAuth() {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-}
-
-export function getToken() {
-    return localStorage.getItem(TOKEN_KEY);
-}
-
-export function getUser() {
-    const user = localStorage.getItem(USER_KEY);
-    return user ? JSON.parse(user) : null;
-}
-
-// main api
-
+// public api
 export async function registerUser(userData) {
-    return USE_MOCK ? mockRegister(userData) : apiRegister(userData);
+  return USE_MOCK
+    ? mockRegister(userData)
+    : apiRegister(userData);
 }
 
 export async function loginUser(loginData) {
-    return USE_MOCK ? mockLogin(loginData) : apiLogin(loginData);
+  return USE_MOCK
+    ? mockLogin(loginData)
+    : apiLogin(loginData);
 }
 
 // jwt
 
 export function decodeToken(token) {
-    try {
-        return jwtDecode(token);
-    } catch {
-        return null;
-    }
+  try {
+    return jwtDecode(token);
+  } catch {
+    return null;
+  }
 }

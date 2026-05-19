@@ -1,56 +1,33 @@
 import { useState } from "react";
-import { registerUser } from "../api/authApi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useRegister } from "../hooks/useRegister";
 
 function RegistrationPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const navigate = useNavigate();
+  const { handleRegister, loading, message } = useRegister();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsSubmitting(true);
-    setMessage("");
-
-    try {
-      const response = await registerUser({
-        name,
-        email,
-        password,
-      });
-
-      if (!response.success) {
-        setMessage("Registration failed: " + response.message);
-        setIsSubmitting(false);
-        return;
-      }
-
-      setMessage(response.message || "Registration successful!");
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 800);
-
-    } catch (error) {
-      setMessage("Registration failed: " + error.message);
-      setIsSubmitting(false);
-    }
+    await handleRegister({
+      name,
+      email,
+      password,
+    });
   };
 
   return (
     <div className="auth-page">
       <div className="auth-card">
         <h1 className="auth-title">Register</h1>
-
         <form onSubmit={handleSubmit}>
           <div className="auth-form">
-            <label className="auth-form-label">Username</label>
+            <label htmlFor="name" className="auth-form-label">Username</label>
             <input
+              id="name"
               className="auth-form-input"
               type="text"
               value={name}
@@ -59,32 +36,41 @@ function RegistrationPage() {
           </div>
 
           <div className="auth-form">
-            <label className="auth-form-label">Email</label>
+            <label htmlFor="email" className="auth-form-label">Email</label>
             <input
+              id="email"
               className="auth-form-input"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-
           <div className="auth-form">
-            <label className="auth-form-label">Password</label>
+            <label htmlFor="password" className="auth-form-label">Password</label>
             <input
+              id="password"
               className="auth-form-input"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
-          <button type="submit" className="auth-button" disabled={isSubmitting || !name || !email || !password}>
-            Register
+          <button
+            type="submit"
+            className="auth-button"
+            disabled={
+              loading ||
+              !name ||
+              !email ||
+              !password
+            }
+          >
+            {loading
+              ? "Registering..."
+              : "Register"}
           </button>
         </form>
-
         <p className="auth-message">{message}</p>
-
         <p className="auth-link">Already have an account?</p>
         <Link to="/login">Login here</Link>
       </div>

@@ -1,91 +1,66 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
+
 import {
-    loginUser,
-    registerUser,
-    saveAuth,
-    clearAuth,
-    getToken,
-    getUser,
-    decodeToken,
+  loginUser,
+  registerUser,
 } from "../api/authApi";
+
+import {
+  saveAuth,
+  clearAuth,
+} from "../utils/authStorage";
+
+import { useAuthInit } from "../hooks/useAuthInit";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    // init
-    useEffect(() => {
-    const storedToken = getToken();
-    const storedUser = getUser();
+  useAuthInit(setToken, setUser, setLoading);
 
-    if (storedToken) {
-        const decoded = decodeToken(storedToken);
+  const login = async (credentials) => {
+    const result = await loginUser(credentials);
 
-        // token expired?
-        if (decoded?.exp * 1000 < Date.now()) {
-            clearAuth();
-            setLoading(false);
-            return;
-        }
+    if (result.token) {
+      saveAuth(result.token, result.user);
 
-        setToken(storedToken);
-
-        // prefer backend user, fallback decoded
-        setUser(storedUser || decoded);
+      setToken(result.token);
+      setUser(result.user);
     }
 
-    setLoading(false);
-}, []);
+    return result;
+  };
 
-    // login
-    const login = async (credentials) => {
-        const result = await loginUser(credentials);
+  const register = async (data) => {
+    return registerUser(data);
+  };
 
-        if (result.token) {
-            saveAuth(result.token, result.user);
+  const logout = () => {
+    clearAuth();
+    setUser(null);
+    setToken(null);
+  };
 
-            setToken(result.token);
-            setUser(result.user);
-        }
-
-        return result;
-    };
-
-    // register
-    const register = async (data) => {
-        return await registerUser(data);
-    };
-
-    // logout
-    const logout = () => {
-        clearAuth();
-        setUser(null);
-        setToken(null);
-    };
-
-    // auth state
-    const isAuthenticated = !!token;
-
-    return (
-        <AuthContext.Provider
-            value={{
-                user,
-                token,
-                loading,
-                isAuthenticated,
-                login,
-                logout,
-                register,
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        loading,
+        isAuthenticated: !!token,
+        login,
+        register,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 }

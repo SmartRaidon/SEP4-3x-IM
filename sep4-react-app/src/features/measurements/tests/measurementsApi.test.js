@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { measurementsApi } from "../services/measurementsApi";
+import { measurementsApi } from "../api/measurementsApi";
 
 describe("measurementsApi.getMeasurements", () => {
     // happy scenario - valid room ID shows right measurements

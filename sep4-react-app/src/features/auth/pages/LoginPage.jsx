@@ -1,65 +1,60 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useLogin } from "../hooks/useLogin";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
 
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const { handleLogin, loading, message } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      await login({ email, password });
-
-      setMessage("Login successful!");
-
-      setTimeout(() => {
-        navigate("/main");
-      }, 800);
-
-    } catch (error) {
-      setMessage("Login failed: " + error.message);
-    }
+    await handleLogin({
+      email,
+      password,
+    });
   };
 
   return (
     <div className="auth-page">
       <div className="auth-card">
         <h1 className="auth-title">Login</h1>
-
         <form onSubmit={handleSubmit}>
           <div className="auth-form">
-            <label className="auth-form-label">Email</label>
+            <label htmlFor="email" className="auth-form-label">Email</label>
             <input
+              id="email"
               className="auth-form-input"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-
           <div className="auth-form">
-            <label className="auth-form-label">Password</label>
+            <label htmlFor="password" className="auth-form-label">Password</label>
             <input
+              id="password"
               className="auth-form-input"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
-          <button type="submit" className="auth-button">
-            Login
+          <button
+            type="submit"
+            className="auth-button"
+            disabled={
+              loading ||
+              !email ||
+              !password
+            }
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-
         <p className="auth-message">{message}</p>
-
         <p className="auth-link">Don't have an account?</p>
         <Link to="/register">Register here</Link>
       </div>
