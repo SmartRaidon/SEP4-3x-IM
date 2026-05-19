@@ -76,14 +76,14 @@ function ViewDataPage() {
             data={historyMeasurements}
           />
         ))}
-
-        <Link to="/main">
-          <button className="nav-btn">Home</button>
-        </Link>
       
       </div>
         <DailySummary history={historyMeasurements} types={typesToShow} />
       </div>
+      
+      <Link to="/main">
+          <button className="nav-btn">Home</button>
+        </Link>
     </div>
 );
 
