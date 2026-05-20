@@ -1,19 +1,10 @@
-import {
-  mockScenario,
-  mockedNewPredictedValues,
-} from "../mocks/scenario.mock";
+import { scenarioMockService } from "../mocks/scenarioMockService";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_URL = "/api/scenarios";
 
-export const scenarioService = {
+export const apiService = {
   getScenario: async (roomId) => {
-    if (USE_MOCK) {
-      console.log("MOCK: getScenario");
-      await new Promise((res) => setTimeout(res, 500));
-      return mockScenario;
-    }
-
     const response = await fetch(`${API_URL}?roomId=${roomId}`);
 
     if (!response.ok) {
@@ -24,20 +15,6 @@ export const scenarioService = {
   },
 
   sendFeedback: async ({ scenarioId, valueType, feedback }) => {
-    if (USE_MOCK) {
-      console.log("MOCK: sendFeedback", { scenarioId, valueType, feedback });
-      await new Promise((res) => setTimeout(res, 300));
-
-    if (feedback === 0) {
-      return {
-        success: true,
-        newPredictedValue: mockedNewPredictedValues[valueType],
-      };
-    }
-
-      return { success: true };
-    }
-
     const response = await fetch(`${API_URL}/feedback`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -51,3 +28,7 @@ export const scenarioService = {
     return response.json();
   },
 };
+
+export const scenarioService = USE_MOCK
+  ? scenarioMockService
+  : apiService;

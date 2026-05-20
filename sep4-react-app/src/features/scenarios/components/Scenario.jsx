@@ -1,4 +1,4 @@
-function Scenario({ scenario, onLiked, onDisliked, feedbackLoading,feedbackSentFor, }) {
+function Scenario({ scenario, onLiked, onDisliked, feedbackLoadingFor, feedbackSentFor }) {
   return (
     <div className="scenario">
       <div>
@@ -26,7 +26,7 @@ function Scenario({ scenario, onLiked, onDisliked, feedbackLoading,feedbackSentF
               <button
                 className="comfort-zone-feedback-btn"
                 onClick={() => onLiked(value.type)}
-                disabled={feedbackLoading || feedbackSentFor.includes(value.type)}
+                disabled={ feedbackLoadingFor.includes(value.type) || feedbackSentFor.has(value.type) }
               >
                 Like
               </button>
@@ -34,7 +34,7 @@ function Scenario({ scenario, onLiked, onDisliked, feedbackLoading,feedbackSentF
               <button
                 className="comfort-zone-feedback-btn"
                 onClick={() => onDisliked(value.type)}
-                disabled={feedbackLoading || feedbackSentFor.includes(value.type)}
+                disabled={ feedbackLoadingFor.includes(value.type) || feedbackSentFor.has(value.type) }
               >
                 Dislike
               </button>

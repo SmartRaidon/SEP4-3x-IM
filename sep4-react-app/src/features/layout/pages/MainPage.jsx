@@ -68,7 +68,7 @@ function handleDeleteRoom() {
   }
   return (
     <div>
-      <p>Temperature: {data.temperature.value} Â°C </p>
+      <p>Temperature: {data.temperature.value} °C </p>
       <p>Humidity: {data.humidity.value} %</p>
       <p>Light: {data.light.value} lx</p>
     </div>
