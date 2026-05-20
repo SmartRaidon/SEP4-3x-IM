@@ -7,10 +7,8 @@ import {
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as authApi from "../api/authApi";
-import {
-  AuthProvider,
-  useAuth,
-} from "../context/AuthContext";
+import { AuthProvider } from "../context/AuthContextProvider";
+import { useAuth } from "../context/authContext";
 
 vi.mock("../api/authApi", () => ({
   loginUser: vi.fn(),

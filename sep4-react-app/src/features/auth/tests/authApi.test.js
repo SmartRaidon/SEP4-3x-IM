@@ -16,9 +16,9 @@ describe("authApi (real API branch)", () => {
       }),
     });
 
-    const { loginUser } = await import("../services/authService");
+    const { apiLogin } = await import("../api/authApi");
 
-    const result = await loginUser({
+    const result = await apiLogin({
       email: "test@test.com",
       password: "123456",
     });
@@ -37,9 +37,9 @@ describe("authApi (real API branch)", () => {
       }),
     });
 
-    const { registerUser } = await import("../services/authService");
+    const { apiRegister } = await import("../api/authApi");
 
-    const result = await registerUser({
+    const result = await apiRegister({
       name: "John",
       email: "john@test.com",
       password: "123456",

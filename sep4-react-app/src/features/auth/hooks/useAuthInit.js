@@ -29,5 +29,6 @@ export function useAuthInit(setToken, setUser, setLoading) {
     setUser(storedUser || decoded);
 
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

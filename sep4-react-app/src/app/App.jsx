@@ -6,7 +6,7 @@ import MainPage from "../features/layout/pages/MainPage";
 import ComfortZonePage from "../features/scenarios/pages/ComfortZonePage";
 import ViewDataPage from "../features/measurements/pages/ViewDataPage";
 import ProtectedRoute from "../features/auth/components/ProtectedRoute";
-import { AuthProvider } from "../features/auth/context/AuthContext";
+import { AuthProvider } from "../features/auth/context/AuthContextProvider";
 
 function App() {
   return (
