@@ -44,8 +44,8 @@ function ViewDataPage() {
   const typesToShow = activeType === "All" ? measurementsType : [activeType];
 
   return (
-    <div>
-      <h1>ViewData</h1>
+    <div className="view-data-page">
+      <h1 className="view-data-title">View Data</h1>
 
       <div className="view-data-layout">
       <div className="view-data-main">

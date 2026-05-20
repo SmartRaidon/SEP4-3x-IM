@@ -5,6 +5,7 @@ import RegistrationPage from "../features/auth/pages/RegistrationPage";
 import MainPage from "../features/layout/pages/MainPage";
 import ComfortZonePage from "../features/scenarios/pages/ComfortZonePage";
 import ViewDataPage from "../features/measurements/pages/ViewDataPage";
+import SystemActionHistoryPage from "../features/system-actions/pages/SystemActionHistoryPage";
 import ProtectedRoute from "../features/auth/components/ProtectedRoute";
 import { AuthProvider } from "../features/auth/context/AuthContextProvider";
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="main" element={<ProtectedRoute> <MainPage /> </ProtectedRoute>}/>
             <Route path="comfort-zone/:roomId" element={<ProtectedRoute> <ComfortZonePage /> </ProtectedRoute>}/>
             <Route path="view-data/:roomId" element={<ProtectedRoute> <ViewDataPage /> </ProtectedRoute>}/>
+            <Route path="system-actions/:roomId" element={<ProtectedRoute> <SystemActionHistoryPage /> </ProtectedRoute>}/>
           </Route>
 
           {/* fallback / default */}
