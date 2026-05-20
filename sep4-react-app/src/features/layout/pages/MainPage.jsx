@@ -106,6 +106,16 @@ function handleDeleteRoom() {
               View Data
             </button>
           )}
+
+          {selectedRoomId ? (
+            <Link to={`/system-actions/${selectedRoomId}`}>
+              <button className="main-page-nav-btn">Action History</button>
+            </Link>
+          ) : (
+            <button className="main-page-nav-btn" disabled>
+              Action History
+            </button>
+          )}
         </div>
 
         <h1>Main page</h1>

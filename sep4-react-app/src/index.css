@@ -404,3 +404,41 @@ body {
 .delete-room-btn:hover {
   background-color: rgba(139, 0, 21, 0.08);
 }
+
+.actions-filters {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.actions-filters label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actions-table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.actions-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.actions-row:last-child {
+  border-bottom: none;
+}
+
+.actions-row-header {
+  font-weight: 600;
+  background-color: #f5f5f5;
+}
