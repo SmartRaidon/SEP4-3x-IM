@@ -727,9 +727,23 @@ a {
     padding: 12px 16px;
   }
 
-  /* View Data narrower so charts have more space */
+  /* Main page content tighter */
+  .main-page {
+    padding: 20px;
+  }
+  .main-page h1 {
+    font-size: 24px;
+  }
+  .top-nav {
+    gap: 8px;
+  }
+
+  /* View Data narrower so charts have more space, but readable */
   .daily-summary {
-    width: 140px;
+    width: 200px;
+  }
+  .view-data-title {
+    font-size: 24px;
   }
 }
 
@@ -737,6 +751,13 @@ a {
 /* <= 576px */
 @media (max-width: 576px) {
   /*View Data*/
+  .view-data-page {
+    padding: 16px 0 32px;
+  }
+  .view-data-title {
+    margin: 0 16px 12px;
+    font-size: 22px;
+  }
   .view-data-layout {
     flex-direction: column;
     gap: 16px;
@@ -758,7 +779,7 @@ a {
     margin-bottom: 0;
   }
   .daily-summary-row {
-    flex: 1;
+    flex: 1 1 100px;
     min-width: 0;
     margin-bottom: 0;
   }
@@ -768,8 +789,8 @@ a {
     flex-direction: column;
   }
   .comfort-zone-charts {
-  flex-direction: column;
-}
+    flex-direction: column;
+  }
 
   /* Main Page navbar becomes top bar*/
   .main-page-layout {
@@ -779,10 +800,39 @@ a {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid #d0d0d0;
-    min-height: auto; 
+    min-height: auto;
   }
-    .delete-room-btn {
+  .delete-room-btn {
     margin-top: 24px;
   }
 
+  /* Main page: top-nav was absolute (overlaps with stacked layout) */
+  .main-page {
+    padding: 16px;
+  }
+  .main-page h1 {
+    font-size: 22px;
+    margin: 8px 0 16px;
+  }
+  .top-nav {
+    position: static;
+    margin-bottom: 12px;
+    justify-content: flex-start;
+  }
+  .main-page-nav-btn,
+  .nav-btn {
+    margin: 4px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  /* Auth pages: smaller card padding on phones */
+  .auth-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+  .auth-title {
+    font-size: 26px;
+    margin-bottom: 18px;
+  }
 }
