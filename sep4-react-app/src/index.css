@@ -603,6 +603,18 @@ a {
   font-weight: 600;
 }
 
+@media (max-width: 768px) {
+  .actions-page {
+    padding: 20px 16px 36px;
+  }
+  .actions-title {
+    font-size: 22px;
+  }
+  .actions-row {
+    grid-template-columns: 1.5fr 1fr 1.5fr;
+  }
+}
+
 @media (max-width: 576px) {
   .actions-page {
     padding: 16px 12px 32px;
@@ -700,11 +712,18 @@ a {
 
 .view-data-page {
   padding: 24px 0 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .view-data-title {
   margin: 0 20px 16px;
   font-size: 28px;
+}
+
+.main-page {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* <= 768px */
@@ -834,5 +853,40 @@ a {
   .auth-title {
     font-size: 26px;
     margin-bottom: 18px;
+  }
+}
+
+
+/* >= 1200px desktop polish */
+@media (min-width: 1200px) {
+  /* View Data: roomier summary panel on wide screens */
+  .daily-summary {
+    width: 320px;
+  }
+  .view-data-layout {
+    gap: 32px;
+    padding: 0 24px;
+  }
+  .view-data-title {
+    margin: 0 24px 20px;
+    font-size: 32px;
+  }
+
+  /* Main page: more breathing room */
+  .main-page {
+    padding: 40px;
+  }
+  .main-page h1 {
+    font-size: 32px;
+  }
+
+  /* Comfort Zone */
+  .comfort-zone-scenario {
+    margin: 24px;
+  }
+
+  /* Actions History already capped at 960px — slight bump */
+  .actions-page {
+    padding: 32px 24px 48px;
   }
 }
