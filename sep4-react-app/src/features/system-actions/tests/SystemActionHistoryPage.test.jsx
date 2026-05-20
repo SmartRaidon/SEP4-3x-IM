@@ -49,14 +49,18 @@ describe("SystemActionHistoryPage", () => {
   });
 
   test("formats null previousState as an em dash", async () => {
-    renderPage();
+    const { container } = renderPage();
     await waitFor(() =>
       expect(screen.queryByText(/loading actions/i)).not.toBeInTheDocument(),
     );
 
-    expect(screen.getByText(/— → Open/)).toBeInTheDocument();
-    expect(screen.getByText(/Off → On/)).toBeInTheDocument();
-    expect(screen.getByText(/Open → Closed/)).toBeInTheDocument();
+    const cells = container.querySelectorAll(".actions-cell-change");
+    const cellTexts = Array.from(cells).map((c) =>
+      c.textContent.replace(/\s+/g, ""),
+    );
+    expect(cellTexts).toContain("—→Open");
+    expect(cellTexts).toContain("Off→On");
+    expect(cellTexts).toContain("Open→Closed");
   });
 
   test("filters rows by device type", async () => {
