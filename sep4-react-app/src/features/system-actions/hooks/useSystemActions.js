@@ -7,12 +7,8 @@ export function useSystemActions(roomId) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!roomId) {
-      setIsLoading(false);
-      setData(null);
-      setError(null);
-      return;
-    }
+    if (!roomId) return;
+
     let cancel = false;
     setIsLoading(true);
     setError(null);
@@ -34,6 +30,9 @@ export function useSystemActions(roomId) {
 
     return () => {
       cancel = true;
+      setData(null);
+      setError(null);
+      setIsLoading(false);
     };
   }, [roomId]);
 
