@@ -30,8 +30,8 @@ function SystemActionHistoryPage() {
   }, [data, deviceTypeFilter, from, to]);
 
   return (
-    <div>
-      <h1>Action History — Room {roomId}</h1>
+    <div className="actions-page">
+      <h1 className="actions-title">Action History — Room {roomId}</h1>
 
       <SystemActionsFilters
         deviceTypeFilter={deviceTypeFilter}

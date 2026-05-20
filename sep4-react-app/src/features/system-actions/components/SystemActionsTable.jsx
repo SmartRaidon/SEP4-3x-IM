@@ -16,10 +16,12 @@ function SystemActionsTable({ rows }) {
       </div>
       {rows.map((row) => (
         <div className="actions-row" key={row.id}>
-          <span>{formatTime(row.timestampUtc)}</span>
-          <span>{row.deviceType}</span>
-          <span>
-            {row.previousState ?? "—"} → {row.newState}
+          <span className="actions-cell-time">{formatTime(row.timestampUtc)}</span>
+          <span className="actions-cell-device">{row.deviceType}</span>
+          <span className="actions-cell-change">
+            <span className="actions-chip actions-chip-prev">{row.previousState ?? "—"}</span>
+            <span className="actions-arrow">→</span>
+            <span className="actions-chip actions-chip-new">{row.newState}</span>
           </span>
         </div>
       ))}
