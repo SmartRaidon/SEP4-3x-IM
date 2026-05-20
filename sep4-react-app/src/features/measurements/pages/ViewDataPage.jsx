@@ -6,7 +6,6 @@ import MeasurementChart from "../components/MeasurementChart";
 import DailySummary from "../components/DailySummary";
 
 const measurementsType = ["temperature", "humidity", "light"];
-const unitByType = { temperature: "°C", humidity: "%", light: "lx" };
 function ViewDataPage() {
   const [measurements, setMeasurements] = useState(null);
   const [historyMeasurements, setHistoryMeasurements] = useState([]);
@@ -38,7 +37,7 @@ function ViewDataPage() {
 
   if (loading) return <p>Loading measurements...</p>;
   if (error) return <p>Error: {error}</p>;
-  if (!measurements || historyMeasurements.length == 0)
+  if (historyMeasurements.length === 0)
     return <p>No measurements available</p>;
 
   //pick which measurements to display, all three or just the selected one
