@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MeasurementContainer from "../components/MeasurementContainer";
 import { measurementsApi } from "../api/measurementsApi";
 import MeasurementChart from "../components/MeasurementChart";
@@ -44,42 +44,38 @@ function ViewDataPage() {
   const typesToShow = activeType === "All" ? measurementsType : [activeType];
 
   return (
-    <div className="view-data-page">
-      <h1 className="view-data-title">View Data</h1>
+    <div className="page view-data-page">
+      <header className="page-header">
+        <h1 className="page-title">View Data</h1>
+      </header>
 
       <div className="view-data-layout">
-      <div className="view-data-main">
-        {/*render btn for each msr type, plus an "All" btn to show every measurement*/}
-        <div className="chart-filter">
-          <button onClick={() => setActiveType("All")}>All</button>
-          {measurementsType.map((type) => (
-            <button key={type} onClick={() => setActiveType(type)}>
-              {type}
-            </button>
+        <div className="view-data-main">
+          {/*render btn for each msr type, plus an "All" btn to show every measurement*/}
+          <div className="chart-filter">
+            <button onClick={() => setActiveType("All")}>All</button>
+            {measurementsType.map((type) => (
+              <button key={type} onClick={() => setActiveType(type)}>
+                {type}
+              </button>
+            ))}
+          </div>
+
+          {typesToShow.map((type) => (
+            <MeasurementContainer
+              key={type}
+              type={type}
+              value={measurements[type].value}
+              timeStamp={measurements[type].timeStamp}
+            />
           ))}
+
+          <MeasurementChart type={activeType} data={historyMeasurements} />
         </div>
-
-        {typesToShow.map((type) => (
-          <MeasurementContainer
-            key={type}
-            type={type}
-            value={measurements[type].value}
-            timeStamp={measurements[type].timeStamp}
-          />
-        ))}
-
-        <MeasurementChart type={activeType} data={historyMeasurements} />
-
-      </div>
         <DailySummary history={historyMeasurements} types={typesToShow} />
       </div>
-      
-      <Link to="/main">
-          <button className="nav-btn">Home</button>
-        </Link>
     </div>
-);
-
+  );
 }
 
 export default ViewDataPage;

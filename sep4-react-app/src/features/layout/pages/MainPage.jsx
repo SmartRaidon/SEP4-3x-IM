@@ -118,7 +118,9 @@ function handleDeleteRoom() {
           )}
         </div>
 
-        <h1>Main page</h1>
+        <header className="page-header">
+          <h1 className="page-title">Main page</h1>
+        </header>
 
         {renderMeasurements()}
       </main>

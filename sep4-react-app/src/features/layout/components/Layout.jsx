@@ -3,12 +3,12 @@ import Header from "./Header";
 
 function Layout() {
   return (
-    <>
+    <div className="app-shell">
       <Header />
-      <main>
+      <main className="app-main">
         <Outlet />
       </main>
-    </>
+    </div>
   );
 }
 

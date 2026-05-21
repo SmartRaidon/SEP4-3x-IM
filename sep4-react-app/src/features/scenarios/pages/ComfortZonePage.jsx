@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Scenario from "../components/Scenario";
 import ComfortZoneChart from "../components/ComfortZoneChart";
 import { useScenario } from "../hooks/useScenario";
@@ -16,37 +16,28 @@ function ComfortZonePage() {
     feedbackSentFor,
   } = useScenario(roomId);
 
-  // UI state
-  if (loading) {
-    return <p>Loading scenario...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-  if (!scenario) {
-    return <p>No scenario available</p>;
-  }
-
   return (
-    <div>
-      <h1>Comfort Zone</h1>
-      <Scenario
-        scenario={scenario}
-        onLiked={(valueType) =>
-          sendFeedback(valueType, 1)
-        }
-        onDisliked={(valueType) =>
-          sendFeedback(valueType, 0)
-        }
-        feedbackLoadingFor={feedbackLoadingFor}
-        feedbackSentFor={feedbackSentFor}
-      />
-      <ComfortZoneChart scenario={scenario} />
-      <Link to="/main">
-        <button className="nav-btn">Home</button>
-      </Link>
+    <div className="page comfort-zone-page">
+      <header className="page-header">
+        <h1 className="page-title">Comfort Zone</h1>
+      </header>
+
+      {loading && <p>Loading scenario...</p>}
+      {error && <p>Error: {error}</p>}
+      {!loading && !error && !scenario && <p>No scenario available</p>}
+
+      {!loading && !error && scenario && (
+        <>
+          <Scenario
+            scenario={scenario}
+            onLiked={(valueType) => sendFeedback(valueType, 1)}
+            onDisliked={(valueType) => sendFeedback(valueType, 0)}
+            feedbackLoadingFor={feedbackLoadingFor}
+            feedbackSentFor={feedbackSentFor}
+          />
+          <ComfortZoneChart scenario={scenario} />
+        </>
+      )}
     </div>
   );
 }
