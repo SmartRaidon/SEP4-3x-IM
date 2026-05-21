@@ -48,7 +48,7 @@ function ViewDataPage() {
   return (
     <div className="page view-data-page">
       <header className="page-header">
-        <h1 className="page-title">View Data — {roomName}</h1>
+        <h1 className="page-title">View Data {roomName}</h1>
       </header>
 
       <div className="view-data-layout">
