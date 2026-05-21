@@ -1,31 +1,20 @@
 import { scenarioMockService } from "../mocks/scenarioMockService";
+import { apiGet, apiPost } from "../shared/api/httpClient";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
-const API_URL = "/api/scenarios";
+const API_URL = "/scenarios";
 
 export const apiService = {
   getScenario: async (roomId) => {
-    const response = await fetch(`${API_URL}?roomId=${roomId}`);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch scenario");
-    }
-
-    return response.json();
+    return apiGet(`${API_URL}?roomId=${roomId}`);
   },
 
   sendFeedback: async ({ scenarioId, valueType, feedback }) => {
-    const response = await fetch(`${API_URL}/feedback`, {
+    return apiPost(`${API_URL}/feedback`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ scenarioId, valueType, feedback })
     });
-
-    if (!response.ok) {
-      throw new Error("Failed to send feedback");
-    }
-
-    return response.json();
   },
 };
 

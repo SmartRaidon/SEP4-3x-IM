@@ -1,8 +1,10 @@
 import { measurements, measurementsHistory } from "../mocks/measurements.mock";
+import { apiGet } from "../../shared/api/httpClient";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_URL = "/api/measurements";
 const HISTORY_URL = "api/...";
+
 async function getMeasurementsMock(roomId) {
   await new Promise((res) => setTimeout(res, 500));
   const room = measurements[roomId];
@@ -23,12 +25,13 @@ function adaptServerMeasurement(roomId, dto) {
 }
 
 async function getMeasurementsRest(roomId) {
-  const response = await fetch(`${API_URL}?roomId=${roomId}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch measurements");
-  }
-  const dto = await response.json();
+  const dto = await apiGet(`${API_URL}?roomId=${roomId}`);
   return adaptServerMeasurement(roomId, dto);
+}
+
+async function getMeasurementsHistoryRest(roomId) {
+  const dtos = await apiGet(`${HISTORY_URL}?roomId=${roomId}`);
+  return dtos.map(adaptServerHistoryPoint);
 }
 
 async function getMeasurementsHistoryMock(roomId){
@@ -46,15 +49,6 @@ function adaptServerHistoryPoint(dto){
     humidity: dto.Humidity,
     light: dto.Light,
   };
-}
-
-async function getMeasurementsHistoryRest(roomId) {
-  const response = await fetch(`${HISTORY_URL}?roomId=${roomId}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch measurement history");
-  }
-  const dtos = await response.json();
-  return dtos.map(adaptServerHistoryPoint);
 }
 
 export const measurementsApi = {
