@@ -1,9 +1,8 @@
 import { measurements, measurementsHistory } from "../mocks/measurements.mock";
-import { apiGet } from "../../shared/api/httpClient";
+import { apiGet } from "../../../shared/api/httpClient";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
-const API_URL = "/api/measurements";
-const HISTORY_URL = "api/...";
+const API_URL = import.meta.env.VITE_API_IOT_URL;
 
 async function getMeasurementsMock(roomId) {
   await new Promise((res) => setTimeout(res, 500));
@@ -25,12 +24,12 @@ function adaptServerMeasurement(roomId, dto) {
 }
 
 async function getMeasurementsRest(roomId) {
-  const dto = await apiGet(`${API_URL}?roomId=${roomId}`);
+  const dto = await apiGet(`${API_URL}/sensor-data/current?roomId=${roomId}`);
   return adaptServerMeasurement(roomId, dto);
 }
 
 async function getMeasurementsHistoryRest(roomId) {
-  const dtos = await apiGet(`${HISTORY_URL}?roomId=${roomId}`);
+  const dtos = await apiGet(`${API_URL}/sensor-data/history?roomId=${roomId}`);
   return dtos.map(adaptServerHistoryPoint);
 }
 

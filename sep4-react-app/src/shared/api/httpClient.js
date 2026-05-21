@@ -1,11 +1,8 @@
-import { getToken } from "../features/auth/utils/authStorage";
+import { getToken } from "../../features/auth/utils/authStorage";
 
 function createAuthHeaders() {
   const token = getToken();
-
-  const headers = {
-    "Content-Type": "application/json",
-  };
+  const headers = { "Content-Type": "application/json",};
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;

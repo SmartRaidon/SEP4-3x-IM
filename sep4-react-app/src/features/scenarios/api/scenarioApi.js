@@ -1,5 +1,5 @@
 import { scenarioMockService } from "../mocks/scenarioMockService";
-import { apiGet, apiPost } from "../shared/api/httpClient";
+import { apiGet, apiPost } from "../../../shared/api/httpClient";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_URL = "/scenarios";
