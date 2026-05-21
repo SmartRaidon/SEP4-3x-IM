@@ -4,6 +4,7 @@ import MeasurementContainer from "../components/MeasurementContainer";
 import { measurementsApi } from "../api/measurementsApi";
 import MeasurementChart from "../components/MeasurementChart";
 import DailySummary from "../components/DailySummary";
+import { rooms } from "../../layout/mocks/rooms.mock";
 
 const measurementsType = ["temperature", "humidity", "light"];
 function ViewDataPage() {
@@ -14,6 +15,7 @@ function ViewDataPage() {
   const [error, setError] = useState(null);
   const { roomId: roomIdParam } = useParams();
   const roomId = Number(roomIdParam);
+  const roomName = rooms.find((r) => r.id === roomId)?.name ?? `Room ${roomId}`;
 
   //render measures data
   useEffect(() => {
@@ -46,7 +48,7 @@ function ViewDataPage() {
   return (
     <div className="page view-data-page">
       <header className="page-header">
-        <h1 className="page-title">View Data</h1>
+        <h1 className="page-title">View Data — {roomName}</h1>
       </header>
 
       <div className="view-data-layout">
