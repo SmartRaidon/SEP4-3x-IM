@@ -34,7 +34,8 @@ function SystemActionHistoryPage() {
   return (
     <div className="page actions-page">
       <header className="page-header">
-        <h1 className="page-title">Action History — {roomName}</h1>
+        <h1 className="page-title">Action History</h1>
+        <p className="page-subtitle">{roomName}</p>
       </header>
 
       <SystemActionsFilters

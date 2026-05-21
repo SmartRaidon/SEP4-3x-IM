@@ -22,6 +22,7 @@ function ComfortZonePage() {
     <div className="page comfort-zone-page">
       <header className="page-header">
         <h1 className="page-title">Comfort Zone</h1>
+        <p className="page-subtitle">{roomName}</p>
       </header>
 
       {loading && <p>Loading scenario...</p>}
@@ -32,7 +33,6 @@ function ComfortZonePage() {
         <>
           <Scenario
             scenario={scenario}
-            roomName={roomName}
             onLiked={(valueType) => sendFeedback(valueType, 1)}
             onDisliked={(valueType) => sendFeedback(valueType, 0)}
             feedbackLoadingFor={feedbackLoadingFor}
