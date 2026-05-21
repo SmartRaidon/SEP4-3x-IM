@@ -2,10 +2,12 @@ import { useParams } from "react-router-dom";
 import Scenario from "../components/Scenario";
 import ComfortZoneChart from "../components/ComfortZoneChart";
 import { useScenario } from "../hooks/useScenario";
+import { rooms } from "../../layout/mocks/rooms.mock";
 
 function ComfortZonePage() {
   const { roomId: roomIdParam } = useParams();
   const roomId = Number(roomIdParam);
+  const roomName = rooms.find((r) => r.id === roomId)?.name ?? `Room ${roomId}`;
 
   const {
     scenario,
@@ -30,6 +32,7 @@ function ComfortZonePage() {
         <>
           <Scenario
             scenario={scenario}
+            roomName={roomName}
             onLiked={(valueType) => sendFeedback(valueType, 1)}
             onDisliked={(valueType) => sendFeedback(valueType, 0)}
             feedbackLoadingFor={feedbackLoadingFor}

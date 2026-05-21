@@ -1,8 +1,8 @@
-function Scenario({ scenario, onLiked, onDisliked, feedbackLoadingFor, feedbackSentFor }) {
+function Scenario({ scenario, roomName, onLiked, onDisliked, feedbackLoadingFor, feedbackSentFor }) {
   return (
     <div className="scenario">
       <div>
-        <h3>Room #{scenario.roomId}</h3>
+        <h3>{roomName ?? `Room #${scenario.roomId}`}</h3>
         <p>Date: {scenario.date}</p>
         <p>Prediction for {scenario.predictionHoursAhead} hours from now</p>
     </div>
