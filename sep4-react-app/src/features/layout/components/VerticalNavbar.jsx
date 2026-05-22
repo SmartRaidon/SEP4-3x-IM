@@ -44,7 +44,7 @@ function VerticalNavbar({ rooms, selectedRoomId, onSelectRoom, onAddRoom, onDele
           <button
             key={room.id}
             className={
-              Number(selectedRoomId) === room.id
+              selectedRoomId === room.id
                 ? "room-nav-item active"
                 : "room-nav-item"
             }

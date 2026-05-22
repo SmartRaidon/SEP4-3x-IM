@@ -1,4 +1,4 @@
 export const rooms = [
-    { id: 1, name: "Living Room" },
-    { id: 2, name: "Bedroom" },
+    { id: "room-1", userId: "demo-user", name: "Living Room" },
+    { id: "room-2", userId: "demo-user", name: "Bedroom" },
 ];

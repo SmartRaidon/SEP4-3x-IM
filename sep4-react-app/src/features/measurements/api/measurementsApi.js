@@ -14,12 +14,12 @@ async function getMeasurementsMock(roomId) {
 }
 
 function adaptServerMeasurement(roomId, dto) {
-  const timeStamp = dto.TimestampUtc;
+  const timeStamp = dto.timestampUtc;
   return {
     roomId,
-    temperature: { value: dto.Temperature, timeStamp },
-    humidity:    { value: dto.Humidity,    timeStamp },
-    light:       { value: dto.Light,       timeStamp },
+    temperature: { value: dto.temperature, timeStamp },
+    humidity:    { value: dto.humidity,    timeStamp },
+    light:       { value: dto.light,       timeStamp },
   };
 }
 
@@ -29,7 +29,11 @@ async function getMeasurementsRest(roomId) {
 }
 
 async function getMeasurementsHistoryRest(roomId) {
-  const dtos = await apiGet(`${API_URL}/sensor-data/history?roomId=${roomId}`);
+  const to = new Date().toISOString();
+  const from = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const dtos = await apiGet(
+    `${API_URL}/sensor-data/history?roomId=${roomId}&from=${from}&to=${to}`
+  );
   return dtos.map(adaptServerHistoryPoint);
 }
 
@@ -43,10 +47,10 @@ async function getMeasurementsHistoryMock(roomId){
 
 function adaptServerHistoryPoint(dto){
   return {
-    timeStamp: dto.TimestampUtc,
-    temperature: dto.Temperature,
-    humidity: dto.Humidity,
-    light: dto.Light,
+    timeStamp: dto.timestampUtc,
+    temperature: dto.temperature,
+    humidity: dto.humidity,
+    light: dto.light,
   };
 }
 

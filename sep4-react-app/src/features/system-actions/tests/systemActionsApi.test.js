@@ -4,18 +4,18 @@ import { DEVICE_TYPES, ACTIONS_BY_DEVICE } from "../constants/deviceActions";
 
 describe("systemActionsApi.getActions (mock)", () => {
   it("resolves with an array of actions for a known roomId", async () => {
-    const result = await systemActionsApi.getActions(1);
+    const result = await systemActionsApi.getActions("room-1");
     expect(Array.isArray(result)).toBe(true);
     expect(result.length).toBeGreaterThan(0);
   });
 
   it("returns entries with the expected DeviceActionLog shape", async () => {
-    const result = await systemActionsApi.getActions(1);
+    const result = await systemActionsApi.getActions("room-1");
     const entry = result[0];
     expect(entry).toEqual(
       expect.objectContaining({
         id: expect.any(Number),
-        roomId: 1,
+        roomId: "room-1",
         deviceType: expect.any(String),
         newState: expect.any(String),
         timestampUtc: expect.any(String),
@@ -25,7 +25,7 @@ describe("systemActionsApi.getActions (mock)", () => {
   });
 
   it("only uses known device types and matching states", async () => {
-    const result = await systemActionsApi.getActions(1);
+    const result = await systemActionsApi.getActions("room-1");
     const knownTypes = Object.values(DEVICE_TYPES);
     for (const entry of result) {
       expect(knownTypes).toContain(entry.deviceType);
@@ -38,7 +38,7 @@ describe("systemActionsApi.getActions (mock)", () => {
   });
 
   it("sorts results newest-first", async () => {
-    const result = await systemActionsApi.getActions(1);
+    const result = await systemActionsApi.getActions("room-1");
     for (let i = 1; i < result.length; i++) {
       const prev = new Date(result[i - 1].timestampUtc).getTime();
       const curr = new Date(result[i].timestampUtc).getTime();
@@ -47,7 +47,7 @@ describe("systemActionsApi.getActions (mock)", () => {
   });
 
   it("returns an empty array for an unknown roomId", async () => {
-    const result = await systemActionsApi.getActions(99999);
+    const result = await systemActionsApi.getActions("nonexistent");
     expect(result).toEqual([]);
   });
 });

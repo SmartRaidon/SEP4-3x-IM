@@ -4,7 +4,7 @@ import MeasurementContainer from "../components/MeasurementContainer";
 import { measurementsApi } from "../api/measurementsApi";
 import MeasurementChart from "../components/MeasurementChart";
 import DailySummary from "../components/DailySummary";
-import { rooms } from "../../layout/mocks/rooms.mock";
+import { roomsApi } from "../../layout/api/roomsApi";
 
 const measurementsType = ["temperature", "humidity", "light"];
 function ViewDataPage() {
@@ -13,9 +13,23 @@ function ViewDataPage() {
   const [activeType, setActiveType] = useState("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { roomId: roomIdParam } = useParams();
-  const roomId = Number(roomIdParam);
-  const roomName = rooms.find((r) => r.id === roomId)?.name ?? `Room ${roomId}`;
+  const [roomName, setRoomName] = useState(null);
+  const { roomId } = useParams();
+
+  useEffect(() => {
+    let cancel = false;
+    roomsApi
+      .getRooms()
+      .then((list) => {
+        if (cancel) return;
+        const match = list.find((r) => r.id === roomId);
+        setRoomName(match?.name ?? `Room ${roomId}`);
+      })
+      .catch(() => {
+        if (!cancel) setRoomName(`Room ${roomId}`);
+      });
+    return () => { cancel = true; };
+  }, [roomId]);
 
   //render measures data
   useEffect(() => {
