@@ -1,12 +1,14 @@
 import { useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSystemActions } from "../hooks/useSystemActions";
 import SystemActionsFilters from "../components/SystemActionsFilters";
 import SystemActionsTable from "../components/SystemActionsTable";
+import { rooms } from "../../layout/mocks/rooms.mock";
 
 function SystemActionHistoryPage() {
   const { roomId: roomIdParam } = useParams();
   const roomId = Number(roomIdParam);
+  const roomName = rooms.find((r) => r.id === roomId)?.name ?? `Room ${roomId}`;
   const { data, isLoading, error } = useSystemActions(roomId);
 
   const [deviceTypeFilter, setDeviceTypeFilter] = useState("all");
@@ -30,8 +32,11 @@ function SystemActionHistoryPage() {
   }, [data, deviceTypeFilter, from, to]);
 
   return (
-    <div className="actions-page">
-      <h1 className="actions-title">Action History — Room {roomId}</h1>
+    <div className="page actions-page">
+      <header className="page-header">
+        <h1 className="page-title">Action History</h1>
+        <p className="page-subtitle">{roomName}</p>
+      </header>
 
       <SystemActionsFilters
         deviceTypeFilter={deviceTypeFilter}
@@ -45,10 +50,6 @@ function SystemActionHistoryPage() {
       {isLoading && <p>Loading actions...</p>}
       {error && <p>Error: {error.message}</p>}
       {!isLoading && !error && <SystemActionsTable rows={filteredActions} />}
-
-      <Link to="/main">
-        <button className="nav-btn">Home</button>
-      </Link>
     </div>
   );
 }

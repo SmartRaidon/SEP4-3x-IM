@@ -1,7 +1,7 @@
 import { systemActions } from "../mocks/systemActions.mock";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
-const API_URL = "/api/device-action-log";
+const API_URL = "/devices/action-history";
 
 async function getActionsMock(roomId) {
   await new Promise((res) => setTimeout(res, 500));
