@@ -219,18 +219,72 @@ a {
 
 /* Authentication related styles */
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 20px;
+  padding: 14px 32px;
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.brand-link {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.brand-link:hover {
+  opacity: 0.85;
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.topbar-nav-link {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.topbar-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.topbar-nav-link.active {
+  background-color: var(--accent);
+  color: #fff;
 }
 
 .user-section {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+}
+
+.user-greeting {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .auth-page {
@@ -331,7 +385,6 @@ a {
   display: flex;
   gap: 24px;
   align-items: flex-start;
-  padding: 0 20px;
 }
 
 .view-data-main {
@@ -474,9 +527,8 @@ a {
 }
 
 .actions-page {
+  /* narrower than the default .page width — keep table compact */
   max-width: 960px;
-  margin: 0 auto;
-  padding: 24px 20px 40px;
 }
 
 .actions-title {
@@ -604,9 +656,6 @@ a {
 }
 
 @media (max-width: 768px) {
-  .actions-page {
-    padding: 20px 16px 36px;
-  }
   .actions-title {
     font-size: 22px;
   }
@@ -616,9 +665,6 @@ a {
 }
 
 @media (max-width: 576px) {
-  .actions-page {
-    padding: 16px 12px 32px;
-  }
   .actions-title {
     font-size: 20px;
   }
@@ -711,12 +757,11 @@ a {
 }
 
 .view-data-page {
-  padding: 24px 0 40px;
-  max-width: 1200px;
-  margin: 0 auto;
+  /* outer max-width + padding handled by .page */
 }
 
 .view-data-title {
+  /* deprecated; replaced by .page-title */
   margin: 0 20px 16px;
   font-size: 28px;
 }
@@ -770,9 +815,6 @@ a {
 /* <= 576px */
 @media (max-width: 576px) {
   /*View Data*/
-  .view-data-page {
-    padding: 16px 0 32px;
-  }
   .view-data-title {
     margin: 0 16px 12px;
     font-size: 22px;
@@ -780,7 +822,6 @@ a {
   .view-data-layout {
     flex-direction: column;
     gap: 16px;
-    padding: 0 16px;
   }
   .view-data-main {
     width: 100%;
@@ -865,7 +906,6 @@ a {
   }
   .view-data-layout {
     gap: 32px;
-    padding: 0 24px;
   }
   .view-data-title {
     margin: 0 24px 20px;
@@ -885,8 +925,103 @@ a {
     margin: 24px;
   }
 
-  /* Actions History already capped at 960px — slight bump */
-  .actions-page {
-    padding: 32px 24px 48px;
+}
+
+/* === App shell + shared page wrapper === */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 32px 48px;
+}
+
+.page-header {
+  margin-bottom: 28px;
+  padding-left: 14px;
+  border-left: 4px solid var(--accent);
+}
+
+.page-title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.page-subtitle {
+  margin: 6px 0 0;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-muted);
+  max-width: 60ch;
+}
+
+/* Topbar overrides for buttons that are shared with the auth pages */
+.topbar .auth-button {
+  margin-top: 0;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .topbar-brand {
+    gap: 12px;
+  }
+  .brand-link {
+    font-size: 18px;
+  }
+  .topbar-nav-link {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  .user-greeting {
+    display: none;
+  }
+
+  .page {
+    padding: 24px 20px 36px;
+  }
+  .page-title {
+    font-size: 24px;
+  }
+  .page-subtitle {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .page {
+    padding: 20px 16px 32px;
+  }
+  .page-header {
+    margin-bottom: 20px;
+  }
+  .page-title {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page {
+    padding: 40px 40px 56px;
+  }
+  .page-title {
+    font-size: 34px;
   }
 }

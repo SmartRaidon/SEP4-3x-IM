@@ -2,7 +2,6 @@ function Scenario({ scenario, onLiked, onDisliked, feedbackLoadingFor, feedbackS
   return (
     <div className="scenario">
       <div>
-        <h3>Room #{scenario.roomId}</h3>
         <p>Date: {scenario.date}</p>
         <p>Prediction for {scenario.predictionHoursAhead} hours from now</p>
     </div>
