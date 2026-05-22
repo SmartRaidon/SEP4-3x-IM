@@ -21,5 +21,10 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/tests/setup.js",
+    deps: {
+      inline: ["react", "react-dom"]
+    }
   },
+
+  esbuild: { jsx: "automatic", },
 })
