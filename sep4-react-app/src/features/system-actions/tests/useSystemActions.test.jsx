@@ -11,7 +11,7 @@ vi.mock("../api/systemActionsApi", () => ({
 import { systemActionsApi } from "../api/systemActionsApi";
 
 const sampleRows = [
-  { id: 1, roomId: 1, deviceType: "Heater", previousState: "Off", newState: "On", timestampUtc: new Date().toISOString() },
+  { id: 1, roomId: "room-1", deviceType: "Heater", previousState: "Off", newState: "On", timestampUtc: new Date().toISOString() },
 ];
 
 describe("useSystemActions", () => {
@@ -28,18 +28,18 @@ describe("useSystemActions", () => {
 
   it("loads data for a given roomId", async () => {
     systemActionsApi.getActions.mockResolvedValueOnce(sampleRows);
-    const { result } = renderHook(() => useSystemActions(1));
+    const { result } = renderHook(() => useSystemActions("room-1"));
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(result.current.data).toEqual(sampleRows);
     expect(result.current.error).toBeNull();
-    expect(systemActionsApi.getActions).toHaveBeenCalledWith(1);
+    expect(systemActionsApi.getActions).toHaveBeenCalledWith("room-1");
   });
 
   it("surfaces errors from the api", async () => {
     const err = new Error("boom");
     systemActionsApi.getActions.mockRejectedValueOnce(err);
-    const { result } = renderHook(() => useSystemActions(1));
+    const { result } = renderHook(() => useSystemActions("room-1"));
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(result.current.error).toBe(err);

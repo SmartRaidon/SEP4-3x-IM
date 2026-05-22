@@ -1,14 +1,30 @@
 import { Link } from "react-router-dom"
-import { useState } from "react";
-import {rooms as initialRooms} from "../mocks/rooms.mock";
+import { useEffect, useState } from "react";
+import { roomsApi } from "../api/roomsApi";
+import { getUser } from "../../auth/utils/authStorage";
 import { useCurrentMeasurements } from "../../measurements/hooks/useCurrentMeasurements";
 import VerticalNavbar from "../components/VerticalNavbar";
 
 function MainPage() {
   const [selectedRoomId, setSelectedRoomId] = useState(null);
-  const [rooms, setRooms] = useState(initialRooms);
+  const [rooms, setRooms] = useState([]);
+  const [roomsError, setRoomsError] = useState(null);
   const {data, isLoading, error}  = useCurrentMeasurements(selectedRoomId);
-  function handleAddRoom(roomName) {
+
+  useEffect(() => {
+    let cancel = false;
+    roomsApi
+      .getRooms()
+      .then((result) => {
+        if (!cancel) setRooms(result);
+      })
+      .catch((err) => {
+        if (!cancel) setRoomsError(err);
+      });
+    return () => { cancel = true; };
+  }, []);
+
+  async function handleAddRoom(roomName) {
   if (!roomName || roomName.trim() === "") {
     return;
   }
@@ -24,16 +40,19 @@ function MainPage() {
     return;
   }
 
-  const newRoom = {
-    id: Date.now(),
-    name: trimmedName,
-  };
+  const currentUser = getUser();
+  const userId = currentUser?.id ? String(currentUser.id) : "demo-user";
 
-  setRooms((prevRooms) => [...prevRooms, newRoom]);
-  setSelectedRoomId(newRoom.id);
+  try {
+    const newRoom = await roomsApi.createRoom({ userId, name: trimmedName });
+    setRooms((prevRooms) => [...prevRooms, newRoom]);
+    setSelectedRoomId(newRoom.id);
+  } catch (err) {
+    alert(`Failed to create room: ${err.message}`);
+  }
 }
 
-function handleDeleteRoom() {
+async function handleDeleteRoom() {
   if (!selectedRoomId) {
     return;
   }
@@ -46,11 +65,15 @@ function handleDeleteRoom() {
     return;
   }
 
-  setRooms((prevRooms) =>
-    prevRooms.filter((room) => room.id !== selectedRoomId)
-  );
-
-  setSelectedRoomId(null);
+  try {
+    await roomsApi.deleteRoom(selectedRoomId);
+    setRooms((prevRooms) =>
+      prevRooms.filter((room) => room.id !== selectedRoomId)
+    );
+    setSelectedRoomId(null);
+  } catch (err) {
+    alert(`Failed to delete room: ${err.message}`);
+  }
 }
 
   function renderMeasurements() {
@@ -122,6 +145,7 @@ function handleDeleteRoom() {
           <h1 className="page-title">Main page</h1>
         </header>
 
+        {roomsError && <p>Error loading rooms: {roomsError.message}</p>}
         {renderMeasurements()}
       </main>
     </div>

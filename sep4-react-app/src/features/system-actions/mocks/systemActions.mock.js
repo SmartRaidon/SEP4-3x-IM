@@ -1,6 +1,6 @@
 import { DEVICE_TYPES, ACTIONS_BY_DEVICE } from "../constants/deviceActions";
 
-const ROOM_IDS = [1, 2];
+const ROOM_IDS = ["room-1", "room-2"];
 const ENTRIES_PER_ROOM = 25;
 const MAX_AGE_MINUTES = 7 * 24 * 60;
 

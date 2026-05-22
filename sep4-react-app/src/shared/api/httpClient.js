@@ -37,3 +37,16 @@ export async function apiPost(url, body) {
 
   return response.json();
 }
+
+export async function apiDelete(url) {
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers: createAuthHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error(`DELETE ${url} failed`);
+  }
+
+  return response.json();
+}

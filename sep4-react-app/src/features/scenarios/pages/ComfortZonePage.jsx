@@ -1,13 +1,28 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Scenario from "../components/Scenario";
 import ComfortZoneChart from "../components/ComfortZoneChart";
 import { useScenario } from "../hooks/useScenario";
-import { rooms } from "../../layout/mocks/rooms.mock";
+import { roomsApi } from "../../layout/api/roomsApi";
 
 function ComfortZonePage() {
-  const { roomId: roomIdParam } = useParams();
-  const roomId = Number(roomIdParam);
-  const roomName = rooms.find((r) => r.id === roomId)?.name ?? `Room ${roomId}`;
+  const { roomId } = useParams();
+  const [roomName, setRoomName] = useState(null);
+
+  useEffect(() => {
+    let cancel = false;
+    roomsApi
+      .getRooms()
+      .then((list) => {
+        if (cancel) return;
+        const match = list.find((r) => r.id === roomId);
+        setRoomName(match?.name ?? `Room ${roomId}`);
+      })
+      .catch(() => {
+        if (!cancel) setRoomName(`Room ${roomId}`);
+      });
+    return () => { cancel = true; };
+  }, [roomId]);
 
   const {
     scenario,

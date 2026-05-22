@@ -1,5 +1,6 @@
 import { measurements, measurementsHistory } from "../mocks/measurements.mock";
 import { apiGet } from "../../../shared/api/httpClient";
+import { SHARED_ROOM_ID } from "../../../shared/api/constants";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_URL = import.meta.env.VITE_API_IOT_URL;
@@ -14,22 +15,28 @@ async function getMeasurementsMock(roomId) {
 }
 
 function adaptServerMeasurement(roomId, dto) {
-  const timeStamp = dto.TimestampUtc;
+  const timeStamp = dto.timestampUtc;
   return {
     roomId,
-    temperature: { value: dto.Temperature, timeStamp },
-    humidity:    { value: dto.Humidity,    timeStamp },
-    light:       { value: dto.Light,       timeStamp },
+    temperature: { value: dto.temperature, timeStamp },
+    humidity:    { value: dto.humidity,    timeStamp },
+    light:       { value: dto.light,       timeStamp },
   };
 }
 
 async function getMeasurementsRest(roomId) {
-  const dto = await apiGet(`${API_URL}/sensor-data/current?roomId=${roomId}`);
+  // Sensor data always queries the shared physical room; the UI roomId is kept
+  // only so the returned shape carries the caller's id for display.
+  const dto = await apiGet(`${API_URL}/sensor-data/current?roomId=${SHARED_ROOM_ID}`);
   return adaptServerMeasurement(roomId, dto);
 }
 
-async function getMeasurementsHistoryRest(roomId) {
-  const dtos = await apiGet(`${API_URL}/sensor-data/history?roomId=${roomId}`);
+async function getMeasurementsHistoryRest() {
+  const to = new Date().toISOString();
+  const from = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const dtos = await apiGet(
+    `${API_URL}/sensor-data/history?roomId=${SHARED_ROOM_ID}&from=${from}&to=${to}`
+  );
   return dtos.map(adaptServerHistoryPoint);
 }
 
@@ -43,10 +50,10 @@ async function getMeasurementsHistoryMock(roomId){
 
 function adaptServerHistoryPoint(dto){
   return {
-    timeStamp: dto.TimestampUtc,
-    temperature: dto.Temperature,
-    humidity: dto.Humidity,
-    light: dto.Light,
+    timeStamp: dto.timestampUtc,
+    temperature: dto.temperature,
+    humidity: dto.humidity,
+    light: dto.light,
   };
 }
 

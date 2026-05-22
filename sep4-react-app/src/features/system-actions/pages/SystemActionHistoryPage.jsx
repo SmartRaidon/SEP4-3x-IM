@@ -1,14 +1,29 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSystemActions } from "../hooks/useSystemActions";
 import SystemActionsFilters from "../components/SystemActionsFilters";
 import SystemActionsTable from "../components/SystemActionsTable";
-import { rooms } from "../../layout/mocks/rooms.mock";
+import { roomsApi } from "../../layout/api/roomsApi";
 
 function SystemActionHistoryPage() {
-  const { roomId: roomIdParam } = useParams();
-  const roomId = Number(roomIdParam);
-  const roomName = rooms.find((r) => r.id === roomId)?.name ?? `Room ${roomId}`;
+  const { roomId } = useParams();
+  const [roomName, setRoomName] = useState(null);
+
+  useEffect(() => {
+    let cancel = false;
+    roomsApi
+      .getRooms()
+      .then((list) => {
+        if (cancel) return;
+        const match = list.find((r) => r.id === roomId);
+        setRoomName(match?.name ?? `Room ${roomId}`);
+      })
+      .catch(() => {
+        if (!cancel) setRoomName(`Room ${roomId}`);
+      });
+    return () => { cancel = true; };
+  }, [roomId]);
+
   const { data, isLoading, error } = useSystemActions(roomId);
 
   const [deviceTypeFilter, setDeviceTypeFilter] = useState("all");

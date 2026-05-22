@@ -1,7 +1,9 @@
 import { systemActions } from "../mocks/systemActions.mock";
+import { apiGet } from "../../../shared/api/httpClient";
+import { SHARED_ROOM_ID } from "../../../shared/api/constants";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
-const API_URL = import.meta.env.VITE_API_IOT_URL
+const API_URL = import.meta.env.VITE_API_IOT_URL;
 
 async function getActionsMock(roomId) {
   await new Promise((res) => setTimeout(res, 500));
@@ -10,21 +12,18 @@ async function getActionsMock(roomId) {
 
 function adaptServerActionLog(dto) {
   return {
-    id: dto.Id,
-    roomId: dto.RoomId,
-    deviceType: dto.DeviceType,
-    previousState: dto.PreviousState ?? null,
-    newState: dto.NewState,
-    timestampUtc: dto.TimestampUtc,
+    id: dto.id,
+    roomId: dto.roomId,
+    deviceType: dto.deviceType,
+    previousState: dto.previousState ?? null,
+    newState: dto.newState,
+    timestampUtc: dto.timestampUtc,
   };
 }
 
-async function getActionsRest(roomId) {
-  const response = await fetch(`${API_URL}/devices/action-history?roomId=${roomId}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch system actions");
-  }
-  const dtos = await response.json();
+async function getActionsRest() {
+  // Device action logs live under the shared physical room (see IoT seed data).
+  const dtos = await apiGet(`${API_URL}/device-logs/room/${SHARED_ROOM_ID}`);
   return dtos.map(adaptServerActionLog);
 }
 

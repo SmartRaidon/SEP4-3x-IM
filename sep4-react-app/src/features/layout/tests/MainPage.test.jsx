@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter } from "react-router-dom";
 import MainPage from "../pages/MainPage";
@@ -19,6 +19,17 @@ vi.mock("../../measurements/hooks/useCurrentMeasurements", () => ({
       : { data: null, isLoading: false, error: null },
 }));
 
+vi.mock("../api/roomsApi", () => ({
+  roomsApi: {
+    getRooms: vi.fn().mockResolvedValue([
+      { id: "room-1", userId: "demo-user", name: "Living Room" },
+      { id: "room-2", userId: "demo-user", name: "Bedroom" },
+    ]),
+    createRoom: vi.fn(),
+    deleteRoom: vi.fn(),
+  },
+}));
+
 const renderPage = () =>
   render(
     <BrowserRouter>
@@ -26,13 +37,19 @@ const renderPage = () =>
     </BrowserRouter>,
   );
 
+const waitForRooms = () =>
+  waitFor(() =>
+    expect(screen.getByRole("button", { name: "Living Room" })).toBeInTheDocument(),
+  );
+
 describe("MainPage / Manage Household", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  test("TC-MH-01: dashboard lists all rooms from the mock data", () => {
+  test("TC-MH-01: dashboard lists all rooms from the mock data", async () => {
     renderPage();
+    await waitForRooms();
     expect(screen.getByRole("button", { name: "Living Room" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Bedroom" })).toBeInTheDocument();
   });
@@ -43,6 +60,7 @@ describe("MainPage / Manage Household", () => {
       screen.getByText(/select a room to see current measurements/i),
     ).toBeInTheDocument();
 
+    await waitForRooms();
     await userEvent.click(screen.getByRole("button", { name: "Living Room" }));
 
     expect(screen.getByText(/Temperature: 21/)).toBeInTheDocument();
@@ -59,6 +77,7 @@ describe("MainPage / Manage Household", () => {
   test("TC-MH-04: adding a room with a duplicate name is rejected and does not duplicate the entry", async () => {
     const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
     renderPage();
+    await waitForRooms();
 
     await userEvent.click(screen.getByRole("button", { name: "+" }));
     await userEvent.type(screen.getByPlaceholderText(/room name/i), "Living Room");
