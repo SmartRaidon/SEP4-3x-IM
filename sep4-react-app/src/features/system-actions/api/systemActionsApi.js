@@ -1,7 +1,7 @@
 import { systemActions } from "../mocks/systemActions.mock";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
-const API_URL = "/api/device-action-log";
+const API_URL = import.meta.env.VITE_API_IOT_URL
 
 async function getActionsMock(roomId) {
   await new Promise((res) => setTimeout(res, 500));
@@ -20,7 +20,7 @@ function adaptServerActionLog(dto) {
 }
 
 async function getActionsRest(roomId) {
-  const response = await fetch(`${API_URL}?roomId=${roomId}`);
+  const response = await fetch(`${API_URL}/devices/action-history?roomId=${roomId}`);
   if (!response.ok) {
     throw new Error("Failed to fetch system actions");
   }
