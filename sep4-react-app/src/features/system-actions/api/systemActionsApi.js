@@ -21,7 +21,7 @@ function adaptServerActionLog(dto) {
   };
 }
 
-async function getActionsRest(_roomId) {
+async function getActionsRest() {
   // Device action logs live under the shared physical room (see IoT seed data).
   const dtos = await apiGet(`${API_URL}/device-logs/room/${SHARED_ROOM_ID}`);
   return dtos.map(adaptServerActionLog);

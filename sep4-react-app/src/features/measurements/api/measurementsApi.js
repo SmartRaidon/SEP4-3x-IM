@@ -31,7 +31,7 @@ async function getMeasurementsRest(roomId) {
   return adaptServerMeasurement(roomId, dto);
 }
 
-async function getMeasurementsHistoryRest(roomId) {
+async function getMeasurementsHistoryRest() {
   const to = new Date().toISOString();
   const from = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const dtos = await apiGet(
