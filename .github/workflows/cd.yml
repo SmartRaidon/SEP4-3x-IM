@@ -25,7 +25,7 @@ jobs:
 
       - name: Build image
         run: |
-          docker build -t ghcr.io/smartraidon/sep4-3x-im/frontend:latest .
+          docker build -t ghcr.io/smartraidon/sep4-3x-im/frontend:latest ./sep4-react-app
 
       - name: Push image
         run: |
