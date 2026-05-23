@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -8,7 +8,13 @@ RUN npm install
 
 # whole project
 COPY . .
+RUN npm run build
 
-EXPOSE 5173
+# serve stage
+FROM nginx:alpine
 
-CMD ["npm", "run", "dev", "--", "--host"]
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
