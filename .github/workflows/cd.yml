@@ -25,8 +25,8 @@ jobs:
 
       - name: Build image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/frontend:latest .
+          docker build -t ghcr.io/smartraidon/sep4-3x-im/frontend:latest .
 
       - name: Push image
         run: |
-          docker push ghcr.io/${{ github.repository }}/frontend:latest
+          docker push ghcr.io/smartraidon/sep4-3x-im/frontend:latest
