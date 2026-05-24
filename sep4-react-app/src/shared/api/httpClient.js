@@ -17,14 +17,21 @@ export async function apiGet(url) {
     headers: createAuthHeaders(),
   });
 
-  const data = await response.json().catch(() => null);
+  let data;
+  const contentType = response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      data = await response.json();
+    } catch {
+      data = null;
+    }
+  } else {
+    data = await response.text();
+  }
 
   if (!response.ok) {
-    const message =
-      data?.message ||
-      data?.error ||
-      `GET ${url} failed (status: ${response.status})`;
-
+    const message = typeof data === "string" ? data : data?.message ||  data?.error || `GET ${url} failed (status: ${response.status})`;
     throw new Error(message);
   }
 
@@ -38,14 +45,22 @@ export async function apiPost(url, body) {
     body: JSON.stringify(body),
   });
 
-  const data = await response.json().catch(() => null);
+  let data;
+  const contentType = response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      data = await response.json();
+    } catch {
+      data = null;
+    }
+  } else {
+    data = await response.text();
+  }
 
   if (!response.ok) {
-    const message =
-      data?.message ||
-      data?.error ||
+    const message = typeof data === "string" ? data : data?.message ||  data?.error || 
       `POST ${url} failed (status: ${response.status})`;
-
     throw new Error(message);
   }
 
@@ -58,14 +73,22 @@ export async function apiDelete(url) {
     headers: createAuthHeaders(),
   });
 
-  const data = await response.json().catch(() => null);
+  let data;
+  const contentType = response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      data = await response.json();
+    } catch {
+      data = null;
+    }
+  } else {
+    data = await response.text();
+  }
 
   if (!response.ok) {
-    const message =
-      data?.message ||
-      data?.error ||
+    const message = typeof data === "string" ? data : data?.message ||  data?.error ||
       `DELETE ${url} failed (status: ${response.status})`;
-
     throw new Error(message);
   }
 
