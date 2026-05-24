@@ -31,11 +31,13 @@ async function getRoomsRest() {
 
 async function createRoomRest({ userId, name }) {
   const response = await apiPost(`${API_URL}/rooms`, { userId, name });
+  console.log("[ ! ] Created room with ID:", response.room.id);
   return response.room;
 }
 
 async function deleteRoomRest(id) {
   const response = await apiDelete(`${API_URL}/rooms/${id}`);
+  console.log("[ ! ] Deleted room with ID:", response.room.id);
   return response.room;
 }
 
