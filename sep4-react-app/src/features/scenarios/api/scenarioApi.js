@@ -42,12 +42,10 @@ export const apiService = {
     return adaptScenario(dto);
   },
 
-  // MAL currently stores a single bool per scenario; per-metric feedback is
-  // on their backlog. For now we collapse valueType and only forward `liked`.
-  sendFeedback: async ({ scenarioId, feedback }) => {
+  sendFeedback: async ({ scenarioId, valueType, feedback }) => {
     await apiPost(`${API_URL}/feedback`, {
       scenarioId,
-      liked: feedback === 1,
+      feedback: [{ type: valueType, liked: feedback === 1 }],
     });
     return { success: true };
   },
