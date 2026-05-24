@@ -25,8 +25,6 @@ function adaptServerMeasurement(roomId, dto) {
 }
 
 async function getMeasurementsRest(roomId) {
-  // Sensor data always queries the shared physical room; the UI roomId is kept
-  // only so the returned shape carries the caller's id for display.
   const dto = await apiGet(`${API_URL}/sensor-data/current?roomId=${roomId}`);
   return adaptServerMeasurement(roomId, dto);
 }
