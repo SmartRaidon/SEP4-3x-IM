@@ -1,6 +1,6 @@
 import { measurements, measurementsHistory } from "../mocks/measurements.mock";
 import { apiGet } from "../../../shared/api/httpClient";
-import { SHARED_ROOM_ID } from "../../../shared/api/constants";
+//import { SHARED_ROOM_ID } from "../../../shared/api/constants";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_URL = import.meta.env.VITE_API_IOT_URL;
@@ -27,15 +27,15 @@ function adaptServerMeasurement(roomId, dto) {
 async function getMeasurementsRest(roomId) {
   // Sensor data always queries the shared physical room; the UI roomId is kept
   // only so the returned shape carries the caller's id for display.
-  const dto = await apiGet(`${API_URL}/sensor-data/current?roomId=${SHARED_ROOM_ID}`);
+  const dto = await apiGet(`${API_URL}/sensor-data/current?roomId=${roomId}`);
   return adaptServerMeasurement(roomId, dto);
 }
 
-async function getMeasurementsHistoryRest() {
+async function getMeasurementsHistoryRest(roomId) {
   const to = new Date().toISOString();
   const from = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const dtos = await apiGet(
-    `${API_URL}/sensor-data/history?roomId=${SHARED_ROOM_ID}&from=${from}&to=${to}`
+    `${API_URL}/sensor-data/history?roomId=${roomId}&from=${from}&to=${to}`
   );
   return dtos.map(adaptServerHistoryPoint);
 }
