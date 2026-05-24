@@ -25,7 +25,7 @@ export function useScenario(roomId) {
         }
       } catch (err) {
         if (!cancel) {
-          setError(err);
+          setError(err.message || "Failed to load scenario");
           setScenario(null);
         }
       } finally {
@@ -85,7 +85,7 @@ export function useScenario(roomId) {
       }
     } catch (err) {
       console.error(err);
-      setError(err);
+      setError(err.message || "Failed to send feedback");
     } finally {
       setFeedbackLoadingFor((previous) =>
         previous.filter(
