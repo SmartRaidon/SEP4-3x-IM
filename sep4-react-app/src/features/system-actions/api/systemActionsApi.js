@@ -1,6 +1,5 @@
 import { systemActions } from "../mocks/systemActions.mock";
 import { apiGet } from "../../../shared/api/httpClient";
-//import { SHARED_ROOM_ID } from "../../../shared/api/constants";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_URL = import.meta.env.VITE_API_IOT_URL;
@@ -22,7 +21,6 @@ function adaptServerActionLog(dto) {
 }
 
 async function getActionsRest(roomId) {
-  // Device action logs live under the shared physical room (see IoT seed data).
   const dtos = await apiGet(`${API_URL}/device-logs/room/${roomId}`);
   return dtos.map(adaptServerActionLog);
 }

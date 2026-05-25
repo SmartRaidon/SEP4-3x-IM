@@ -1,6 +1,5 @@
 import { measurements, measurementsHistory } from "../mocks/measurements.mock";
 import { apiGet } from "../../../shared/api/httpClient";
-//import { SHARED_ROOM_ID } from "../../../shared/api/constants";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_URL = import.meta.env.VITE_API_IOT_URL;
