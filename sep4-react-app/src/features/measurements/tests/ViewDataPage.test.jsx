@@ -75,3 +75,4 @@ describe("ViewDataPage", () => {
     ).not.toBeInTheDocument();
   });
 });
+
