@@ -2,7 +2,7 @@ import { scenarioMockService } from "../mocks/scenarioMockService";
 import { mockScenario } from "../mocks/scenario.mock";
 import { apiGet, apiPost } from "../../../shared/api/httpClient";
 
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
+const USE_MOCK = import.meta.env.VITE_USE_MOCK_MAL === "true";
 const API_URL = import.meta.env.VITE_API_MAL_URL;
 
 // MAL doesn't predict light (no training data), so we splice in the mock
