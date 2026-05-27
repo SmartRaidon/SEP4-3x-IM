@@ -54,7 +54,7 @@ function ViewDataPage() {
   if (loading) return <p>Loading measurements...</p>;
   if (error) return <p>Error: {error}</p>;
   if (historyMeasurements.length === 0)
-    return <p>No measurements available</p>;
+    return <p>No measurements available for the last 24 hours</p>;
 
   //pick which measurements to display, all three or just the selected one
   const typesToShow = activeType === "All" ? measurementsType : [activeType];

@@ -1,7 +1,7 @@
 import { systemActions } from "../mocks/systemActions.mock";
 import { apiGet } from "../../../shared/api/httpClient";
 
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
+const USE_MOCK = import.meta.env.VITE_USE_MOCK_IOT === "true";
 const API_URL = import.meta.env.VITE_API_IOT_URL;
 
 async function getActionsMock(roomId) {
