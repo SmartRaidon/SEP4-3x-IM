@@ -1,13 +1,13 @@
 export const mockScenario = {
   id: "mocked-scenario-1",
   roomId: 1,
-  date: "2026-04-29",
+  date: "2026-05-27",
   predictionHoursAhead: 6,
   values: [
     {
       type: "temperature",
       label: "Temperature",
-      currentValue: 22,
+      currentValue: 24,
       predictedValue: 23,
       unit: "°C",
     },
@@ -21,8 +21,8 @@ export const mockScenario = {
     {
       type: "light",
       label: "Light",
-      currentValue: 300,
-      predictedValue: 250,
+      currentValue: 320,
+      predictedValue: 350,
       unit: "lx",
     },
   ],
@@ -31,5 +31,5 @@ export const mockScenario = {
 export const mockedNewPredictedValues = {
   temperature: 24,
   humidity: 48,
-  light: 275,
+  light: 325,
 };
